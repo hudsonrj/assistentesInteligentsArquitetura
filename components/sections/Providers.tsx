@@ -1,6 +1,6 @@
 "use client";
 
-import { Cloud, Database, Zap, Code2, Shield, TrendingUp, Users, Globe } from "lucide-react";
+import { Cloud, Database, Zap, Code2, Shield, TrendingUp, Users, Globe, Router, Rocket, Brain } from "lucide-react";
 import Section from "@/components/layout/Section";
 import Card from "@/components/ui/Card";
 import CodeBlock from "@/components/ui/CodeBlock";
@@ -109,6 +109,73 @@ const result = await hf.textGeneration({
 });`,
     color: "#ffd21e",
   },
+  {
+    name: "OpenRouter",
+    icon: Router,
+    description: "Plataforma unificada que oferece acesso a múltiplos modelos de IA através de uma única API. Permite escolher o melhor modelo para cada caso de uso.",
+    models: ["GPT-4", "Claude", "Llama", "Mistral", "Gemini"],
+    features: ["Múltiplos modelos", "Preços competitivos", "API unificada"],
+    code: `// OpenRouter
+const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer sua-api-key',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    model: 'openai/gpt-4',
+    messages: [{ role: 'user', content: 'Olá!' }],
+  }),
+});
+
+const data = await response.json();`,
+    color: "#8b5cf6",
+  },
+  {
+    name: "Groq",
+    icon: Zap,
+    description: "Plataforma de inferência ultra-rápida para modelos de IA. Oferece latência extremamente baixa usando processadores especializados.",
+    models: ["Llama 3", "Mixtral", "Gemma", "Llama 2"],
+    features: ["Ultra-rápido", "Baixa latência", "Preços econômicos"],
+    code: `// Groq
+import Groq from 'groq-sdk';
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
+
+const completion = await groq.chat.completions.create({
+  messages: [
+    { role: 'user', content: 'Olá!' }
+  ],
+  model: 'llama3-8b-8192',
+});
+
+console.log(completion.choices[0].message.content);`,
+    color: "#10b981",
+  },
+  {
+    name: "Grok (xAI)",
+    icon: Brain,
+    description: "Modelo de linguagem desenvolvido pela xAI (Elon Musk). Focado em raciocínio e compreensão profunda, com acesso em tempo real a informações.",
+    models: ["Grok-1", "Grok-2", "Grok Beta"],
+    features: ["Raciocínio avançado", "Acesso em tempo real", "Transparência"],
+    code: `// Grok (xAI)
+const response = await fetch('https://api.x.ai/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer sua-api-key',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    model: 'grok-beta',
+    messages: [{ role: 'user', content: 'Olá!' }],
+  }),
+});
+
+const data = await response.json();`,
+    color: "#ef4444",
+  },
 ];
 
 // Dados de preços aproximados por 1M tokens (input) - valores em USD
@@ -155,6 +222,9 @@ const comparisonPricingData = [
   { name: "AWS Claude", preco: 8, modelo: "Intermediário" },
   { name: "AWS Llama2", preco: 0.75, modelo: "Econômico" },
   { name: "Hugging Face", preco: 0.2, modelo: "Open Source" },
+  { name: "OpenRouter", preco: 0.5, modelo: "Standard" },
+  { name: "Groq", preco: 0.1, modelo: "Econômico" },
+  { name: "Grok (xAI)", preco: 0.5, modelo: "Standard" },
 ];
 
 const providerStats = [
@@ -362,6 +432,9 @@ export default function Providers() {
                         {provider.name === "Google Cloud" && "Integração GCP, Apps"}
                         {provider.name === "Amazon Web Services" && "AWS, Escala"}
                         {provider.name === "Hugging Face" && "Open-source, Customização"}
+                        {provider.name === "OpenRouter" && "Múltiplos modelos, Flexibilidade"}
+                        {provider.name === "Groq" && "Velocidade, Baixa latência"}
+                        {provider.name === "Grok (xAI)" && "Raciocínio, Tempo real"}
                       </td>
                     </tr>
                   ))}
