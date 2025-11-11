@@ -14,14 +14,6 @@ interface Message {
   timestamp: Date;
 }
 
-const mockResponses = [
-  "Olá! Sou um assistente virtual de IA. Como posso ajudá-lo hoje?",
-  "Entendo sua pergunta. Deixe-me ajudá-lo com isso.",
-  "Com base nas informações disponíveis, posso sugerir algumas opções.",
-  "Essa é uma excelente pergunta! Vou explicar detalhadamente.",
-  "Posso ajudá-lo a entender melhor esse conceito.",
-];
-
 export default function ChatDemo() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -54,21 +46,55 @@ export default function ChatDemo() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput("");
     setIsLoading(true);
 
-    // Simulação de resposta da API
-    setTimeout(() => {
+    try {
+      // Preparar histórico de mensagens
+      const history = messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }));
+
+      // Chamar API real do Groq
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: currentInput,
+          history: history,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: mockResponses[Math.floor(Math.random() * mockResponses.length)] + 
-          " Você perguntou: \"" + input + "\". Este é um exemplo de como um assistente de IA responderia.",
+        content: data.response,
         timestamp: new Date(),
       };
+
       setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("Erro ao enviar mensagem:", error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1000 + Math.random() * 1000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -90,7 +116,7 @@ export default function ChatDemo() {
               </div>
               <div>
                 <h3 className="text-white font-semibold">Assistente Virtual de IA</h3>
-                <p className="text-white/80 text-sm">Demo interativo</p>
+                <p className="text-white/80 text-sm">Demo interativo com Groq (Llama 3.1)</p>
               </div>
             </div>
           </div>
@@ -176,7 +202,7 @@ export default function ChatDemo() {
               </Button>
             </div>
             <p className="text-xs text-dark-500 mt-2 text-center">
-              Este é um demo simulado. Em produção, integraria com APIs reais de IA.
+              Demo funcional usando Groq API com modelo Llama 3.1 8B Instant
             </p>
           </div>
         </Card>
