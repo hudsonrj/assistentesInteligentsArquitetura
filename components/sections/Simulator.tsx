@@ -123,13 +123,82 @@ const automationTools = [
   { id: "temporal", name: "Temporal Cloud", monthlyCost: 25, executionCost: 0.0003 },
 ];
 
+// Tipos de Assistente
+const assistantTypes = [
+  { id: "text", name: "Assistente de Texto (Chatbot)", multiplier: 1.0, requiresSTT: false, requiresTTS: false, requiresTelephony: false },
+  { id: "voice", name: "Assistente de Voz", multiplier: 1.3, requiresSTT: true, requiresTTS: true, requiresTelephony: false },
+  { id: "ura", name: "URA Inteligente (IVR)", multiplier: 1.5, requiresSTT: true, requiresTTS: true, requiresTelephony: true },
+  { id: "multimodal", name: "Multimodal (Texto + Voz)", multiplier: 1.4, requiresSTT: true, requiresTTS: true, requiresTelephony: false },
+  { id: "contact-center", name: "Central de Atendimento", multiplier: 2.0, requiresSTT: true, requiresTTS: true, requiresTelephony: true },
+];
+
+// Speech-to-Text (STT) Providers
+const sttProviders = [
+  { id: "none", name: "Sem STT", costPerMinute: 0 },
+  { id: "openai-whisper", name: "OpenAI Whisper", costPerMinute: 0.006 },
+  { id: "google-stt", name: "Google Cloud STT (Standard)", costPerMinute: 0.024 },
+  { id: "google-stt-enhanced", name: "Google Cloud STT (Enhanced)", costPerMinute: 0.036 },
+  { id: "azure-stt", name: "Azure Speech-to-Text", costPerMinute: 0.017 },
+  { id: "amazon-transcribe", name: "Amazon Transcribe", costPerMinute: 0.024 },
+  { id: "assemblyai", name: "AssemblyAI", costPerMinute: 0.015 },
+  { id: "deepgram", name: "Deepgram", costPerMinute: 0.0125 },
+];
+
+// Text-to-Speech (TTS) Providers
+const ttsProviders = [
+  { id: "none", name: "Sem TTS", costPerMillion: 0 },
+  { id: "openai-tts", name: "OpenAI TTS (Standard)", costPerMillion: 15 },
+  { id: "openai-tts-hd", name: "OpenAI TTS HD", costPerMillion: 30 },
+  { id: "google-tts-standard", name: "Google TTS (Standard)", costPerMillion: 4 },
+  { id: "google-tts-wavenet", name: "Google TTS (WaveNet)", costPerMillion: 16 },
+  { id: "google-tts-neural", name: "Google TTS (Neural2)", costPerMillion: 16 },
+  { id: "azure-tts", name: "Azure TTS (Neural)", costPerMillion: 15 },
+  { id: "amazon-polly-standard", name: "Amazon Polly (Standard)", costPerMillion: 4 },
+  { id: "amazon-polly-neural", name: "Amazon Polly (Neural)", costPerMillion: 16 },
+  { id: "elevenlabs-starter", name: "ElevenLabs (30K chars)", costPerMillion: 167, monthlyCost: 5 },
+  { id: "elevenlabs-creator", name: "ElevenLabs (100K chars)", costPerMillion: 220, monthlyCost: 22 },
+  { id: "playht", name: "Play.ht", costPerMillion: 63, monthlyCost: 19 },
+  { id: "resemble", name: "Resemble AI", costPerMillion: 200 },
+];
+
+// Telefonia/VoIP Providers
+const telephonyProviders = [
+  { id: "none", name: "Sem Telefonia", costPerMinuteInbound: 0, costPerMinuteOutbound: 0, monthlyCost: 0 },
+  { id: "twilio", name: "Twilio", costPerMinuteInbound: 0.0085, costPerMinuteOutbound: 0.013, monthlyCost: 1 },
+  { id: "plivo", name: "Plivo", costPerMinuteInbound: 0.0050, costPerMinuteOutbound: 0.0140, monthlyCost: 1 },
+  { id: "vonage", name: "Vonage/Nexmo", costPerMinuteInbound: 0.0070, costPerMinuteOutbound: 0.0468, monthlyCost: 0 },
+  { id: "signalwire", name: "SignalWire", costPerMinuteInbound: 0.0040, costPerMinuteOutbound: 0.0120, monthlyCost: 0 },
+  { id: "totalvoice", name: "Total Voice (BR)", costPerMinuteInbound: 0.0060, costPerMinuteOutbound: 0.0150, monthlyCost: 0 },
+  { id: "bandwidth", name: "Bandwidth", costPerMinuteInbound: 0.0045, costPerMinuteOutbound: 0.0130, monthlyCost: 0 },
+];
+
+// Contact Center Platforms (opcional)
+const contactCenterOptions = [
+  { id: "none", name: "Sem Contact Center", costPerAgent: 0, minimumAgents: 0 },
+  { id: "twilio-flex", name: "Twilio Flex", costPerAgent: 150, minimumAgents: 5 },
+  { id: "amazon-connect", name: "Amazon Connect", costPerAgent: 60, minimumAgents: 1 },
+  { id: "genesys", name: "Genesys Cloud 2", costPerAgent: 110, minimumAgents: 5 },
+  { id: "five9", name: "Five9 Premium", costPerAgent: 169, minimumAgents: 5 },
+  { id: "ringcentral", name: "RingCentral Standard", costPerAgent: 80, minimumAgents: 1 },
+  { id: "talkdesk", name: "Talkdesk Elevate", costPerAgent: 95, minimumAgents: 5 },
+  { id: "zendesk", name: "Zendesk Talk + Support", costPerAgent: 128, minimumAgents: 1 },
+  { id: "zenvia", name: "Zenvia (BR)", costPerAgent: 50, minimumAgents: 1 },
+  { id: "huggy", name: "Huggy Pro (BR)", costPerAgent: 40, minimumAgents: 1 },
+  { id: "movidesk", name: "Movidesk Pro (BR)", costPerAgent: 13, minimumAgents: 1 },
+  { id: "chatwoot", name: "Chatwoot Cloud", costPerAgent: 19, minimumAgents: 1 },
+];
+
 export default function Simulator() {
   const [callsPerMonth, setCallsPerMonth] = useState(100000);
   const [users, setUsers] = useState(1000);
   const [storageGB, setStorageGB] = useState(100);
   const [ragDocuments, setRagDocuments] = useState(1000);
   const [automationExecutions, setAutomationExecutions] = useState(10000);
-  
+  const [voiceMinutesPerMonth, setVoiceMinutesPerMonth] = useState(5000);
+  const [numberOfAgents, setNumberOfAgents] = useState(5);
+  const [inboundCallRatio, setInboundCallRatio] = useState(60); // % de chamadas recebidas
+
+  const [selectedAssistantType, setSelectedAssistantType] = useState("text");
   const [selectedInfra, setSelectedInfra] = useState("serverless");
   const [selectedArch, setSelectedArch] = useState("microservices");
   const [selectedFrontend, setSelectedFrontend] = useState("web");
@@ -139,9 +208,14 @@ export default function Simulator() {
   const [selectedRAG, setSelectedRAG] = useState("none");
   const [selectedStorage, setSelectedStorage] = useState("s3");
   const [selectedAutomation, setSelectedAutomation] = useState("none");
+  const [selectedSTT, setSelectedSTT] = useState("openai-whisper");
+  const [selectedTTS, setSelectedTTS] = useState("openai-tts");
+  const [selectedTelephony, setSelectedTelephony] = useState("none");
+  const [selectedContactCenter, setSelectedContactCenter] = useState("none");
 
   // Calcular custos
   const calculateCosts = () => {
+    const assistantType = assistantTypes.find((t) => t.id === selectedAssistantType)!;
     const infra = infrastructureOptions.find((i) => i.id === selectedInfra)!;
     const arch = architectureOptions.find((a) => a.id === selectedArch)!;
     const frontend = frontendOptions.find((f) => f.id === selectedFrontend)!;
@@ -149,10 +223,14 @@ export default function Simulator() {
     const rag = ragOptions.find((r) => r.id === selectedRAG)!;
     const storage = storageOptions.find((s) => s.id === selectedStorage)!;
     const automation = automationTools.find((a) => a.id === selectedAutomation)!;
+    const stt = sttProviders.find((s) => s.id === selectedSTT)!;
+    const tts = ttsProviders.find((t) => t.id === selectedTTS)!;
+    const telephony = telephonyProviders.find((t) => t.id === selectedTelephony)!;
+    const contactCenter = contactCenterOptions.find((c) => c.id === selectedContactCenter)!;
 
     // Custo de infraestrutura base
     const infraBaseCost = infra.baseCost;
-    const infraUsageCost = (callsPerMonth / 1000000) * infra.costPerMillion * arch.multiplier;
+    const infraUsageCost = (callsPerMonth / 1000000) * infra.costPerMillion * arch.multiplier * assistantType.multiplier;
 
     // Custo de IA (maior componente) + base cost se houver
     const aiBaseCost = aiProvider.baseCost || 0;
@@ -178,8 +256,28 @@ export default function Simulator() {
     // Custo de Automação
     const automationCost = automation.monthlyCost + (automationExecutions * automation.executionCost);
 
+    // Custo de Speech-to-Text (STT)
+    const sttCost = assistantType.requiresSTT ? voiceMinutesPerMonth * stt.costPerMinute : 0;
+
+    // Custo de Text-to-Speech (TTS)
+    // Estimando ~200 caracteres por resposta de voz
+    const ttsCharacters = assistantType.requiresTTS ? (voiceMinutesPerMonth * 150) : 0; // ~150 chars/min
+    const ttsBaseCost = tts.monthlyCost || 0;
+    const ttsCost = assistantType.requiresTTS ? ttsBaseCost + ((ttsCharacters / 1000000) * tts.costPerMillion) : 0;
+
+    // Custo de Telefonia
+    const inboundMinutes = voiceMinutesPerMonth * (inboundCallRatio / 100);
+    const outboundMinutes = voiceMinutesPerMonth * ((100 - inboundCallRatio) / 100);
+    const telephonyCost = assistantType.requiresTelephony
+      ? telephony.monthlyCost + (inboundMinutes * telephony.costPerMinuteInbound) + (outboundMinutes * telephony.costPerMinuteOutbound)
+      : 0;
+
+    // Custo de Contact Center
+    const effectiveAgents = Math.max(numberOfAgents, contactCenter.minimumAgents);
+    const contactCenterCost = contactCenter.id !== "none" ? effectiveAgents * contactCenter.costPerAgent : 0;
+
     // Custo total
-    const totalCost = infraBaseCost + infraUsageCost + aiCost + frontendCost + deliveryCosts + ragCost + storageCost + automationCost;
+    const totalCost = infraBaseCost + infraUsageCost + aiCost + frontendCost + deliveryCosts + ragCost + storageCost + automationCost + sttCost + ttsCost + telephonyCost + contactCenterCost;
 
     // Aplicar modelo de cobrança
     let finalCost = totalCost;
@@ -191,6 +289,10 @@ export default function Simulator() {
       rag: ragCost,
       storage: storageCost,
       automation: automationCost,
+      stt: sttCost,
+      tts: ttsCost,
+      telephony: telephonyCost,
+      contactCenter: contactCenterCost,
       total: totalCost,
     };
 
@@ -228,6 +330,10 @@ export default function Simulator() {
     { name: "RAG/Vector DB", value: costs.rag, color: "#8b5cf6" },
     { name: "Storage", value: costs.storage, color: "#06b6d4" },
     { name: "Automação", value: costs.automation, color: "#ef4444" },
+    { name: "Speech-to-Text", value: costs.stt, color: "#3b82f6" },
+    { name: "Text-to-Speech", value: costs.tts, color: "#ec4899" },
+    { name: "Telefonia/VoIP", value: costs.telephony, color: "#14b8a6" },
+    { name: "Contact Center", value: costs.contactCenter, color: "#f97316" },
   ].filter((item) => item.value > 0);
 
   const handleDeliveryToggle = (deliveryId: string) => {

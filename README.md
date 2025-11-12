@@ -54,11 +54,86 @@ assisteentes/
 1. **Hero** - Página inicial com estatísticas
 2. **Formatos de Entrega** - Diferentes formas de disponibilizar assistentes
 3. **Modelos de Cobrança** - Estratégias de monetização
-4. **Provedores de IA** - Principais plataformas
+4. **Provedores de IA** - Principais plataformas (LLM, STT, TTS, Telefonia)
 5. **Arquitetura Técnica** - Estruturas modernas
 6. **Modelos de Negócio** - Estratégias de mercado
 7. **Ideias por Setor** - Aplicações específicas
-8. **Demo Interativo** - Chatbot funcional
+8. **Simulador de Custos** - Calculadora interativa de custos
+9. **Demo Interativo** - Chatbot funcional
+
+## 🎙️ Recursos de Voz e Telefonia
+
+Este projeto suporta assistentes virtuais com capacidades completas de voz e telefonia:
+
+### Tipos de Assistentes Suportados
+
+- **Assistente de Texto (Chatbot)** - Chat tradicional via texto
+- **Assistente de Voz** - Interação por voz natural (STT + LLM + TTS)
+- **URA Inteligente (IVR)** - Atendimento telefônico automatizado
+- **Multimodal** - Texto + Voz integrados
+- **Central de Atendimento** - Contact center completo com IA
+
+### Provedores Integrados
+
+#### Speech-to-Text (STT)
+- OpenAI Whisper
+- Google Cloud Speech-to-Text
+- Azure Speech Services
+- Amazon Transcribe
+- AssemblyAI
+- Deepgram
+
+#### Text-to-Speech (TTS)
+- OpenAI TTS (Standard/HD)
+- Google Cloud TTS (Standard/WaveNet/Neural2)
+- Azure TTS
+- Amazon Polly (Standard/Neural)
+- ElevenLabs (alta qualidade)
+- Play.ht
+- Resemble AI
+
+#### Telefonia/VoIP
+- Twilio (recomendado para URA)
+- Plivo
+- Vonage/Nexmo
+- SignalWire
+- Total Voice (Brasil)
+- Bandwidth
+
+#### Plataformas de Contact Center
+- Twilio Flex
+- Amazon Connect
+- Genesys Cloud
+- Five9
+- RingCentral
+- Talkdesk
+- Zendesk Talk
+- Zenvia (Brasil)
+- Huggy (Brasil)
+- Movidesk (Brasil)
+- Chatwoot (Open Source)
+
+### Documentação Técnica
+
+Consulte os seguintes arquivos para informações detalhadas:
+
+- **[VOICE_SERVICES.md](./VOICE_SERVICES.md)** - Guia completo de serviços de STT, TTS e telefonia
+- **[ASSISTANT_TYPES.md](./ASSISTANT_TYPES.md)** - Tipos de assistentes e casos de uso
+- **[CONTACT_CENTER.md](./CONTACT_CENTER.md)** - Plataformas de contact center e comparações
+- **[SECURITY.md](./SECURITY.md)** - Guia de segurança e gerenciamento de API keys
+- **[.env.example](./.env.example)** - Template de variáveis de ambiente
+
+## 💰 Simulador de Custos
+
+O site inclui um simulador interativo que permite:
+
+- Escolher tipo de assistente (texto, voz, URA, multimodal, contact center)
+- Selecionar provedores de LLM, STT, TTS e telefonia
+- Configurar volume de uso (chamadas, minutos, usuários)
+- Calcular custos estimados mensais e anuais
+- Comparar diferentes configurações
+- Ver breakdown detalhado por componente
+- Projeções anuais e custo por interação
 
 ## 🎨 Design
 
