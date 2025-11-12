@@ -113,15 +113,102 @@ Este projeto suporta assistentes virtuais com capacidades completas de voz e tel
 - Movidesk (Brasil)
 - Chatwoot (Open Source)
 
-### Documentação Técnica
+## 📚 Documentação Técnica Completa
 
-Consulte os seguintes arquivos para informações detalhadas:
+### Guias de Serviços
+- **[VOICE_SERVICES.md](./VOICE_SERVICES.md)** - Guia completo de STT, TTS e telefonia
+  - 8 provedores de Speech-to-Text
+  - 13 provedores de Text-to-Speech
+  - 6 provedores de telefonia/VoIP
+  - Tabelas comparativas de custos
+  - Exemplos de integração
 
-- **[VOICE_SERVICES.md](./VOICE_SERVICES.md)** - Guia completo de serviços de STT, TTS e telefonia
 - **[ASSISTANT_TYPES.md](./ASSISTANT_TYPES.md)** - Tipos de assistentes e casos de uso
-- **[CONTACT_CENTER.md](./CONTACT_CENTER.md)** - Plataformas de contact center e comparações
-- **[SECURITY.md](./SECURITY.md)** - Guia de segurança e gerenciamento de API keys
-- **[.env.example](./.env.example)** - Template de variáveis de ambiente
+  - 10 tipos diferentes de assistentes (texto, voz, URA, multimodal, etc.)
+  - Casos de uso por setor
+  - Arquiteturas e padrões de implementação
+  - Matriz de comparação completa
+
+- **[CONTACT_CENTER.md](./CONTACT_CENTER.md)** - Plataformas de contact center
+  - 8 plataformas internacionais (Twilio Flex, Amazon Connect, Genesys, etc.)
+  - 6 soluções brasileiras (Zenvia, Huggy, Movidesk, etc.)
+  - Soluções open source (Asterisk, FreeSWITCH, Chatwoot)
+  - Comparação completa de custos
+  - Recomendações por tamanho de empresa
+
+### Infraestrutura e Operações
+- **[DATA_INFRASTRUCTURE.md](./DATA_INFRASTRUCTURE.md)** - Bancos de dados e data lakes
+  - Bancos de dados SQL (PostgreSQL, MySQL, SQL Server)
+  - NoSQL (MongoDB, DynamoDB, Redis, Cassandra)
+  - Data Lakes (AWS S3, BigQuery, Snowflake)
+  - Data Warehouses e ETL/ELT
+  - Vector databases para RAG
+  - Message queues (Kafka, RabbitMQ, SQS)
+  - Estratégias de backup e disaster recovery
+  - Estimativas de custos por volume
+
+- **[OPERATIONS.md](./OPERATIONS.md)** - Operações e sustentação
+  - DevOps e CI/CD (GitHub Actions, GitLab, CircleCI)
+  - Kubernetes e container orchestration
+  - Load balancing (ALB, NLB, Nginx, HAProxy)
+  - Segurança e compliance (LGPD, GDPR, HIPAA, PCI-DSS)
+  - Secrets management (AWS Secrets Manager, Vault)
+  - DDoS protection (Cloudflare, AWS Shield)
+  - Auto-scaling e caching
+  - Rate limiting
+  - Runbooks e incident management
+  - Custos de infraestrutura por tier
+
+- **[QUALITY_MONITORING.md](./QUALITY_MONITORING.md)** - Qualidade e monitoramento
+  - Ferramentas de QA (MaestroQA, Playvox, Klaus)
+  - Análise de sentimento
+  - Métricas e KPIs essenciais (CSAT, NPS, FCR, AHT, etc.)
+  - Speech analytics (CallMiner, Verint)
+  - APM (Datadog, New Relic, Dynatrace)
+  - Logging (ELK Stack, Splunk, CloudWatch)
+  - Error tracking (Sentry, Rollbar)
+  - Alerting (PagerDuty, Opsgenie)
+  - Dashboards e relatórios
+  - Call scoring framework
+
+### Personalização e Integrações
+- **[PERSONALIZATION.md](./PERSONALIZATION.md)** - Personalização e customização
+  - User profiling e segmentação
+  - Memory systems (curto e longo prazo)
+  - Customização de personalidade do assistente
+  - Fine-tuning de modelos
+  - RAG (Retrieval Augmented Generation)
+  - Respostas adaptativas
+  - Frameworks (LangChain, LlamaIndex)
+  - Estimativas de custos de personalização
+
+- **[INTEGRATIONS.md](./INTEGRATIONS.md)** - Ecossistema de integrações
+  - CRMs (Salesforce, HubSpot, Pipedrive, RD Station)
+  - Pagamentos (Stripe, Mercado Pago, PagSeguro, PayPal)
+  - Calendário (Google Calendar, Calendly, Outlook)
+  - Email marketing (SendGrid, Mailchimp, Amazon SES)
+  - Mensageria (Twilio SMS, WhatsApp, Slack, Teams)
+  - Help desk (Zendesk, Freshdesk, Jira)
+  - E-commerce (Shopify, WooCommerce, VTEX)
+  - Analytics (GA4, Mixpanel, Segment)
+  - Exemplos de código e SDKs
+
+### Segurança
+- **[SECURITY.md](./SECURITY.md)** - Guia de segurança
+  - Gerenciamento de API keys
+  - Boas práticas de segurança
+  - Rotação de chaves
+  - Links para dashboards dos provedores
+  - Procedimentos em caso de exposição
+
+### Configuração
+- **[.env.example](./.env.example)** - Template completo de variáveis de ambiente
+  - APIs de LLM (OpenAI, Groq, Azure, Hugging Face, etc.)
+  - APIs de voz (STT/TTS de todos os provedores)
+  - APIs de telefonia (Twilio, Plivo, Vonage, etc.)
+  - Contact center platforms
+  - WhatsApp Business API
+  - Analytics e monitoring
 
 ## 💰 Simulador de Custos
 
